@@ -1,0 +1,37 @@
+{
+  "name": "web-clipper-second-brain",
+  "version": "1.0.0",
+  "description": "Universal Web Clipper – Second Brain. Capture anything from the web in under 1 second.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build-all.mjs && vite build",
+    "build:sidebar": "vite build",
+    "build:scripts": "node scripts/build-all.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "idb": "^8.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-window": "^1.8.10",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-window": "^1.8.8",
+    "@types/uuid": "^9.0.8",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "canvas": "^3.2.2",
+    "esbuild": "^0.27.4",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "vite": "^5.3.1",
+    "vite-plugin-web-extension": "^4.5.0"
+  }
+}
