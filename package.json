@@ -5,14 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/build-all.mjs && vite build",
-    "build:sidebar": "vite build",
+    "build": "npm run build:scripts && npm run build:sidebar",
+    "build:sidebar": "vite build --config vite.sidebar.config.ts",
     "build:scripts": "node scripts/build-all.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "idb": "^8.0.0",
+
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-window": "^1.8.10",

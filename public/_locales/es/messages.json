@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "Web Clipper – Second Brain",
+    "description": "The title of the application"
+  },
+  "appShortName": {
+    "message": "Web Clipper",
+    "description": "The short title of the application"
+  },
+  "appDescription": {
+    "message": "Tu cerebro universal para la web. Captura texto, enlaces e imágenes con atajos de teclado.",
+    "description": "The description of the application"
+  }
+}

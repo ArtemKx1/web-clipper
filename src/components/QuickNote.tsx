@@ -1,10 +1,12 @@
 import { useState, KeyboardEvent } from 'react';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface QuickNoteProps {
   onSubmit: (content: string) => void;
 }
 
 export default function QuickNote({ onSubmit }: QuickNoteProps) {
+  const { t } = useTranslation();
   const [content, setContent] = useState('');
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -22,7 +24,7 @@ export default function QuickNote({ onSubmit }: QuickNoteProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Quick note..."
+          placeholder={t('quickNote.placeholder')}
           className="w-full rounded-xl px-4 py-3 pr-14 text-sm transition-all duration-300 bg-surface-2 text-foreground border border-transparent placeholder:text-muted-foreground focus:bg-surface-3 focus:border-primary focus:shadow-glow-sm group-hover:bg-surface-3"
         />
         <button

@@ -422,6 +422,7 @@ input::placeholder, textarea::placeholder {
 .shadow-md { box-shadow: var(--shadow-md); }
 .shadow-lg { box-shadow: var(--shadow-lg); }
 .shadow-glow { box-shadow: var(--shadow-glow); }
+.shadow-key { box-shadow: 0 2px 0 var(--surface-5), 0 4px 8px rgba(0,0,0,0.3); }
 
 /* Animations */
 @keyframes fadeIn {

@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "Web Clipper – 第二大脑",
+    "description": "The title of the application"
+  },
+  "appShortName": {
+    "message": "Web Clipper",
+    "description": "The short title of the application"
+  },
+  "appDescription": {
+    "message": "您的通用网络第二大脑。使用键盘快捷键捕获文本、链接和图像。",
+    "description": "The description of the application"
+  }
+}

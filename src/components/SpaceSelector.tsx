@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { Space } from '../types';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface SpaceSelectorProps {
   currentSpaceId: string;
@@ -7,6 +8,7 @@ interface SpaceSelectorProps {
 }
 
 export default function SpaceSelector({ currentSpaceId, onSpaceChange }: SpaceSelectorProps) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [spaces, setSpaces] = useState<Space[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -36,12 +38,12 @@ export default function SpaceSelector({ currentSpaceId, onSpaceChange }: SpaceSe
       const { getAllSpaces } = await import('../lib/db');
       const allSpaces = await getAllSpaces();
       if (allSpaces.length === 0) {
-        setSpaces([{ id: 'default', name: 'My Space', createdAt: Date.now(), isDefault: true }]);
+        setSpaces([{ id: 'default', name: t('space.default'), createdAt: Date.now(), isDefault: true }]);
       } else {
         setSpaces(allSpaces);
       }
     } catch {
-      setSpaces([{ id: 'default', name: 'My Space', createdAt: Date.now(), isDefault: true }]);
+      setSpaces([{ id: 'default', name: t('space.default'), createdAt: Date.now(), isDefault: true }]);
     }
   };
 
@@ -58,7 +60,7 @@ export default function SpaceSelector({ currentSpaceId, onSpaceChange }: SpaceSe
             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
           </svg>
         </div>
-        <span className="text-sm font-medium max-w-[120px] truncate">{currentSpace?.name || 'My Space'}</span>
+        <span className="text-sm font-medium max-w-[120px] truncate">{currentSpace?.name || t('space.default')}</span>
         <svg className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
@@ -75,7 +77,7 @@ export default function SpaceSelector({ currentSpaceId, onSpaceChange }: SpaceSe
         <div className="absolute top-full left-0 mt-2 w-64 rounded-xl bg-surface-2 border border-border shadow-lg z-[9999] animate-scale-in overflow-hidden">
           <div className="p-2">
             <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-2 py-1.5">
-              Spaces
+              {t('space.spaces')}
             </p>
             {spaces.map((space) => (
               <button
@@ -99,7 +101,7 @@ export default function SpaceSelector({ currentSpaceId, onSpaceChange }: SpaceSe
                 </div>
                 <span className="text-sm font-medium flex-1 text-left truncate">{space.name}</span>
                 {space.isDefault && (
-                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-surface-3 text-muted-foreground">Default</span>
+                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-surface-3 text-muted-foreground">{t('space.defaultBadge')}</span>
                 )}
               </button>
             ))}
@@ -117,10 +119,10 @@ export default function SpaceSelector({ currentSpaceId, onSpaceChange }: SpaceSe
                   </svg>
                 </div>
                 <div className="flex-1 text-left">
-                  <span className="text-sm font-medium text-foreground block">Create Space</span>
+                  <span className="text-sm font-medium text-foreground block">{t('space.createSpace')}</span>
                 </div>
                 <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
-                  SOON
+                  {t('space.soon')}
                 </span>
               </button>
             </div>

@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "Web Clipper – Второй мозг",
+    "description": "The title of the application"
+  },
+  "appShortName": {
+    "message": "Web Clipper",
+    "description": "The short title of the application"
+  },
+  "appDescription": {
+    "message": "Ваш универсальный второй мозг для веба. Сохраняйте текст, ссылки и изображения с помощью горячих клавиш.",
+    "description": "The description of the application"
+  }
+}

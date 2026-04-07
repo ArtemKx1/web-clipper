@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Clip } from '../types';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface ClipCardProps {
   clip: Clip;
@@ -54,7 +55,7 @@ function getDomain(url?: string): string {
   }
 }
 
-function formatTimestamp(timestamp: number): string {
+function formatTimestamp(timestamp: number, t: (key: string) => string): string {
   const now = Date.now();
   const diff = now - timestamp;
   
@@ -63,7 +64,7 @@ function formatTimestamp(timestamp: number): string {
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
   
-  if (seconds < 60) return 'just now';
+  if (seconds < 60) return t('time.justNow');
   if (minutes < 60) return `${minutes}m`;
   if (hours < 24) return `${hours}h`;
   if (days < 7) return `${days}d`;
@@ -72,6 +73,7 @@ function formatTimestamp(timestamp: number): string {
 }
 
 export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
+  const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -113,7 +115,6 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
         boxShadow: isHovered ? 'var(--shadow-md)' : 'none',
       }}
     >
-      {/* Hover glow effect */}
       <div 
         className={`absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 ${
           isHovered ? 'opacity-100' : ''
@@ -124,12 +125,10 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
         }}
       />
 
-      {/* Main Content */}
       <div className={`relative flex items-start gap-3 p-3 flex-1 min-w-0 transition-transform duration-300 ${
         isHovered ? '-translate-x-[52px]' : 'translate-x-0'
       }`}>
 
-        {/* Type Icon */}
         <div className={`relative flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${config.bgClass} ${config.colorClass} ${
           isHovered ? 'scale-105' : ''
         }`}>
@@ -137,7 +136,6 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
           <div className={`absolute inset-0 rounded-lg ${config.bgClass} blur-lg opacity-40`} />
         </div>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
           {clip.type === 'image' && clip.imageUrl && !imageError ? (
             <div className="flex gap-3">
@@ -159,7 +157,6 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
             </p>
           )}
 
-          {/* Meta info */}
           <div className="flex items-center gap-2 mt-2.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
             {clip.favicon && (
               <img 
@@ -172,15 +169,14 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
               />
             )}
             <span className="truncate">
-              {clip.type === 'note' ? 'Quick note' : getDomain(clip.url)}
+              {clip.type === 'note' ? t('clipCard.quickNote') : getDomain(clip.url)}
             </span>
             <span className="opacity-40">·</span>
-            <span>Saved {formatTimestamp(clip.timestamp)}</span>
+            <span>{t('clipCard.saved')} {formatTimestamp(clip.timestamp, t)}</span>
           </div>
         </div>
       </div>
 
-      {/* Action Buttons Panel - appears on right side */}
       <div
         className={`absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5 p-1 rounded-lg transition-all duration-300 ${
           isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 pointer-events-none'
@@ -194,7 +190,7 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
             backgroundColor: copied ? 'var(--primary)' : 'transparent', 
             color: copied ? 'var(--primary-foreground)' : 'var(--muted-foreground)',
           }}
-          title={copied ? 'Copied!' : 'Copy'}
+          title={copied ? t('clipCard.copied') : t('clipCard.copy')}
         >
           {copied ? (
             <svg className="w-3.5 h-3.5 animate-scale-in" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
@@ -212,7 +208,7 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
             onClick={handleOpenUrl}
             className="p-1.5 rounded-md transition-all duration-200 hover:scale-105 active:scale-95 flex items-center justify-center text-muted-foreground hover:text-foreground"
             style={{ backgroundColor: 'transparent' }}
-            title="Open link"
+            title={t('clipCard.openLink')}
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -224,7 +220,7 @@ export default function ClipCard({ clip, onDeleteRequest }: ClipCardProps) {
           onClick={handleDeleteClick}
           className="p-1.5 rounded-md transition-all duration-200 hover:scale-105 active:scale-95 flex items-center justify-center text-muted-foreground hover:text-destructive"
           style={{ backgroundColor: 'transparent' }}
-          title="Delete"
+          title={t('clipCard.delete')}
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />

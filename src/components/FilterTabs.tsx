@@ -1,4 +1,5 @@
 import type { FilterType } from '../types';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface FilterTabsProps {
   activeFilter: FilterType;
@@ -6,19 +7,21 @@ interface FilterTabsProps {
   counts: Record<FilterType, number>;
 }
 
-const filters: { id: FilterType; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'text', label: 'Text' },
-  { id: 'image', label: 'Images' },
-  { id: 'link', label: 'Links' },
-  { id: 'note', label: 'Notes' },
-];
-
 export default function FilterTabs({ activeFilter, onFilterChange, counts }: FilterTabsProps) {
+  const { t } = useTranslation();
+
+  const filters: { id: FilterType; labelKey: string }[] = [
+    { id: 'all', labelKey: 'filter.all' },
+    { id: 'text', labelKey: 'filter.text' },
+    { id: 'image', labelKey: 'filter.image' },
+    { id: 'link', labelKey: 'filter.link' },
+    { id: 'note', labelKey: 'filter.note' },
+  ];
+
   return (
     <div className="px-2 pb-2">
       <div className="flex gap-1 overflow-x-auto scrollbar-hide">
-        {filters.map(({ id, label }) => {
+        {filters.map(({ id, labelKey }) => {
           const count = counts[id];
           const isActive = activeFilter === id;
           
@@ -36,7 +39,7 @@ export default function FilterTabs({ activeFilter, onFilterChange, counts }: Fil
                 minWidth: 'auto',
               }}
             >
-              <span>{label}</span>
+              <span>{t(labelKey)}</span>
               {count > 0 && (
                 <span 
                   className="text-[9px] px-1 py-0.5 rounded-full font-bold"

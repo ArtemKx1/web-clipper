@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "Web Clipper – セカンドブレイン",
+    "description": "The title of the application"
+  },
+  "appShortName": {
+    "message": "Web Clipper",
+    "description": "The short title of the application"
+  },
+  "appDescription": {
+    "message": "あなたのための万能ウェブセカンドブレイン。キーボードショートカットでテキスト、リンク、画像を一括キャプチャ。",
+    "description": "The description of the application"
+  }
+}

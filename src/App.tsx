@@ -10,15 +10,17 @@ import type { Clip, FilterType } from './types';
 import type { Theme } from './types/settings';
 import { getSettings } from './lib/settings';
 import { DEFAULT_SPACE_ID } from './lib/db';
+import { TranslationProvider, useTranslation } from './hooks/useTranslation';
 
-function App() {
+function AppContent() {
+  const { t } = useTranslation();
   const [clips, setClips] = useState<Clip[]>([]);
   const [filter, setFilter] = useState<FilterType>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [, setTheme] = useState<Theme>('dark');
   const [isDragging, setIsDragging] = useState(false);
   const [pendingDeleteClip, setPendingDeleteClip] = useState<Clip | null>(null);
   const [showClearAllConfirm, setShowClearAllConfirm] = useState(false);
@@ -331,10 +333,10 @@ function App() {
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary to-primary-light opacity-50 blur-lg -z-10"></div>
           </div>
           <p className="text-sm font-semibold text-foreground mt-4">
-            Drop to save
+            {t('dragDrop.hint')}
           </p>
           <p className="text-xs mt-1 text-muted-foreground">
-            Images, links, text, or files
+            {t('dragDrop.formats')}
           </p>
         </div>
       )}
@@ -363,7 +365,7 @@ function App() {
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground">
-                  Delete clip?
+                  {t('clip.delete')}
                 </p>
                 <p className="text-xs mt-0.5 truncate max-w-[180px] text-muted-foreground">
                   {pendingDeleteClip.content.slice(0, 50)}{pendingDeleteClip.content.length > 50 ? '...' : ''}
@@ -371,20 +373,20 @@ function App() {
               </div>
             </div>
             <p className="text-xs mb-4 text-muted-foreground">
-              This action cannot be undone.
+              {t('clip.deleteConfirm')}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={handleDeleteCancel}
                 className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-surface-4 text-muted-foreground hover:bg-surface-5 active:scale-[0.98]"
               >
-                Cancel
+                {t('clip.cancel')}
               </button>
               <button
                 onClick={handleDeleteConfirm}
                 className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-gradient-to-r from-destructive to-red-600 text-destructive-foreground hover:opacity-90 active:scale-[0.98] shadow-lg"
               >
-                Delete
+                {t('clip.deleteBtn')}
               </button>
             </div>
           </div>
@@ -410,24 +412,24 @@ function App() {
                 <div className="absolute -inset-0.5 rounded-xl from-destructive to-destructive/60 opacity-30 blur-sm -z-10"></div>
               </div>
               <p className="text-sm font-bold text-foreground">
-                Delete all clips?
+                {t('clearAll.title')}
               </p>
             </div>
             <p className="text-xs mb-4 text-muted-foreground">
-              This action cannot be undone.
+              {t('clearAll.confirm')}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowClearAllConfirm(false)}
                 className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-surface-4 text-muted-foreground hover:bg-surface-5 active:scale-[0.98]"
               >
-                Cancel
+                {t('clearAll.cancel')}
               </button>
               <button
                 onClick={handleClearAllConfirm}
                 className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-gradient-to-r from-destructive to-red-600 text-destructive-foreground hover:opacity-90 active:scale-[0.98] shadow-lg"
               >
-                Delete All
+                {t('clearAll.deleteAll')}
               </button>
             </div>
           </div>
@@ -437,4 +439,10 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <TranslationProvider>
+      <AppContent />
+    </TranslationProvider>
+  );
+}

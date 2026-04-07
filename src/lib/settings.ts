@@ -1,4 +1,4 @@
-import type { Settings, Theme } from '../types/settings';
+import type { Settings, Theme, Language } from '../types/settings';
 import { defaultSettings } from '../types/settings';
 
 const SETTINGS_KEY = 'web-clipper-settings';
@@ -17,6 +17,10 @@ export async function saveSettings(settings: Partial<Settings>): Promise<void> {
 
 export async function setTheme(theme: Theme): Promise<void> {
   await saveSettings({ theme });
+}
+
+export async function setLanguage(language: Language): Promise<void> {
+  await saveSettings({ language });
 }
 
 export async function setCaptureShortcut(shortcut: string): Promise<void> {

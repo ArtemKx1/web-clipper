@@ -10,9 +10,26 @@ interface ImageInfo {
   alt: string;
 }
 
+let translations: Record<string, string> = {};
+
+async function loadTranslations() {
+  try {
+    const response = await chrome.runtime.sendMessage({ action: 'get-translations' });
+    if (response?.translations) {
+      translations = response.translations;
+    }
+  } catch {
+    translations = {};
+  }
+}
+
+function t(key: string, fallback: string): string {
+  return translations[key] || fallback;
+}
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.action === 'show-toast') {
-    showToast(message.message || 'Saved');
+    showToast(message.message || t('toast.saved', 'Saved'));
     sendResponse({ success: true });
   }
   if (message.action === 'capture') {
@@ -57,6 +74,8 @@ document.addEventListener('keydown', async (e) => {
       }
     };
     
+    await loadTranslations();
+    
     if (selection) {
       const success = await sendMessage({
         action: 'add-clip',
@@ -69,7 +88,7 @@ document.addEventListener('keydown', async (e) => {
           timestamp: Date.now()
         }
       });
-      showToast(success ? 'Saved to Web Clipper' : 'Failed to save');
+      showToast(success ? t('toast.saved', 'Saved to Web Clipper') : t('toast.failed', 'Failed to save'));
     } else {
       const success = await sendMessage({
         action: 'capture-page',
@@ -80,7 +99,7 @@ document.addEventListener('keydown', async (e) => {
           pageFavicon: getFavicon()
         }
       });
-      showToast(success ? 'Saved to Web Clipper' : 'Failed to save');
+      showToast(success ? t('toast.saved', 'Saved to Web Clipper') : t('toast.failed', 'Failed to save'));
     }
   }
 });
@@ -154,3 +173,5 @@ document.addEventListener('contextmenu', (e) => {
     });
   }
 });
+
+loadTranslations();

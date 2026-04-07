@@ -1,17 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import webExtension from 'vite-plugin-web-extension';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    webExtension({
-      manifest: './public/manifest.json',
-      watch: false,
-      ignoreMinimumChromeVersionError: true,
-    })
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -20,5 +12,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: false,
+    rollupOptions: {
+      input: './index.html'
+    }
   }
 });
